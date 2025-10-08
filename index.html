@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Petly - Petshop</title>
+  <style>
+    body.login {
+      background-color: #40081b;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background-color: #560f2e;
+      padding: 30px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input[type="text"],
+    input[type="password"] {
+      padding: 12px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .btn {
+      background-color: #b5d6b0;
+      color: #1b1b1b;
+      text-align: center;
+      padding: 15px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      font-size: 18px;
+      display: block;
+    }
+    .btn:hover {
+      background-color: #a3c29a;
+    }
+    .error {
+      color: #ff6961;
+      font-weight: bold;
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="login">
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Insira seu login" />
+    <input type="password" id="password" placeholder="Insira sua senha" />
+    <div id="error-msg" class="error" style="display:none;">Login ou senha incorretos</div>
+    <a href="#" class="btn" id="login-btn">Entrar</a>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById('login-btn');
+    const errorMsg = document.getElementById('error-msg');
+
+    // Usuários fixos para teste (normalmente, você buscaria do banco)
+    const users = {
+      cliente: { username: 'cliente', password: '1234', redirect: 'home.html' },
+      adm_cadastro: { username: 'adm_cadastro', password: '1234', redirect: 'cadastro.html' },
+      adm_inserir: { username: 'adm_inserir', password: '1234', redirect: 'inserir-deletar.html' }
+    };
+
+    loginBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Verifica se usuário e senha batem com algum usuário válido
+      if (
+        (username === users.cliente.username && password === users.cliente.password) ||
+        (username === users.adm_cadastro.username && password === users.adm_cadastro.password) ||
+        (username === users.adm_inserir.username && password === users.adm_inserir.password)
+      ) {
+        errorMsg.style.display = 'none';
+        // Redireciona para a página correta conforme o usuário
+        const user = (username === users.cliente.username) ? users.cliente : (username === users.adm_cadastro.username) ? users.adm_cadastro : users.adm_inserir;
+        window.location.href = user.redirect;
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
